@@ -9,7 +9,7 @@ from torch import nn
 from torch.nn import functional as F
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent.parent.parent.parent))
-from disentanglement_via_mechanism_sparsity.model.nn import MLP as MLP_ilcm
+from anon_disentanglement_via_mechanism_sparsity.model.nn import MLP as MLP_ilcm
 
 def weights_init(m):
     if isinstance(m, nn.Linear):

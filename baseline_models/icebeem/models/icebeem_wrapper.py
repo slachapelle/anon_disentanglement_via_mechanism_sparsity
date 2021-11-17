@@ -15,7 +15,7 @@ from .nflib.flows import NormalizingFlowModel, Invertible1x1Conv, ActNorm
 from .nflib.spline_flows import NSF_AR
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent.parent.parent))
-from disentanglement_via_mechanism_sparsity.model.nn import MLP as MLP_ilcm
+from anon_disentanglement_via_mechanism_sparsity.model.nn import MLP as MLP_ilcm
 
 
 def ICEBEEM_wrapper(X, Y, ebm_hidden_size, n_layers_ebm, n_layers_flow, lr_flow, lr_ebm, seed,

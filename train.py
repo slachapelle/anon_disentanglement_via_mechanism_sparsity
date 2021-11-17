@@ -33,14 +33,14 @@ from ignite.metrics import RunningAverage
 from ignite.contrib.metrics import GpuInfo
 from ignite.utils import setup_logger
 
-# adding the folder containing the folder `disentanglement_via_mechanism_sparsity` to sys.path
+# adding the folder containing the folder `anon_disentanglement_via_mechanism_sparsity` to sys.path
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
-from disentanglement_via_mechanism_sparsity.universal_logger.logger import UniversalLogger
-from disentanglement_via_mechanism_sparsity.metrics import MyMetrics, linear_regression_metric, mean_corr_coef, edge_errors
-from disentanglement_via_mechanism_sparsity.plot import plot_01_matrix
-from disentanglement_via_mechanism_sparsity.data.synthetic import get_ToyManifoldDatasets
-from disentanglement_via_mechanism_sparsity.model.ilcm_vae import ILCM_VAE
-from disentanglement_via_mechanism_sparsity.model.latent_models_vae import FCGaussianLatentModel
+from anon_disentanglement_via_mechanism_sparsity.universal_logger.logger import UniversalLogger
+from anon_disentanglement_via_mechanism_sparsity.metrics import MyMetrics, linear_regression_metric, mean_corr_coef, edge_errors
+from anon_disentanglement_via_mechanism_sparsity.plot import plot_01_matrix
+from anon_disentanglement_via_mechanism_sparsity.data.synthetic import get_ToyManifoldDatasets
+from anon_disentanglement_via_mechanism_sparsity.model.ilcm_vae import ILCM_VAE
+from anon_disentanglement_via_mechanism_sparsity.model.latent_models_vae import FCGaussianLatentModel
 
 
 def set_manual_seed(opt):
