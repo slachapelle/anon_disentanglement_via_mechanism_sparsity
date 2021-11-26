@@ -65,7 +65,7 @@ Code adapted from: https://github.com/bethgelab/slow_disentanglement
 ```
 OUTPUT_DIR=<where to save experiment>
 DATAROOT=<where data is located>
-python anon_disentanglement_via_mechanism_sparsity/baseline_models/slowvae_pcl/train.py --dataroot $DATAROOT --output_dir $OUTPUT_DIR --dataset toy-nn/temporal_sparsity_non_trivial --gt_z_dim 10 --gt_x_dim 20 --time_limit 3
+python anon_disentanglement_via_mechanism_sparsity/baseline_models/slowvae/train.py --dataroot $DATAROOT --output_dir $OUTPUT_DIR --dataset toy-nn/temporal_sparsity_non_trivial --gt_z_dim 10 --gt_x_dim 20 --time_limit 3
 ```
 
 ##### PCL
@@ -73,7 +73,7 @@ Implemented from original paper: https://www.cs.helsinki.fi/u/ahyvarin/papers/AI
 ```
 OUTPUT_DIR=<where to save experiment>
 DATAROOT=<where data is located>
-python anon_disentanglement_via_mechanism_sparsity/baseline_models/slowvae_pcl/train.py --dataroot $DATAROOT --output_dir $OUTPUT_DIR --dataset toy-nn/temporal_sparsity_non_trivial --pcl --r_func mlp --gt_z_dim 10 --gt_x_dim 20 --time_limit 3
+python anon_disentanglement_via_mechanism_sparsity/baseline_models/pcl/train.py --dataroot $DATAROOT --output_dir $OUTPUT_DIR --dataset toy-nn/temporal_sparsity_non_trivial --r_func mlp --gt_z_dim 10 --gt_x_dim 20 --time_limit 3
 ```
 
 
