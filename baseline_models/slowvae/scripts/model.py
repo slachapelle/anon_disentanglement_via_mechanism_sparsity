@@ -37,9 +37,8 @@ class View(nn.Module):
 class BetaVAE_H(nn.Module):
     """Model proposed in original beta-VAE paper(Higgins et al, ICLR, 2017)."""
 
-    def __init__(self, z_dim=10, nc=3, pcl=False, architecture="standard_conv", image_shape=None):
+    def __init__(self, z_dim=10, nc=3, architecture="standard_conv", image_shape=None):
         super(BetaVAE_H, self).__init__()
-        self.pcl = pcl
         self.z_dim = z_dim
         self.nc = nc
         self.architecture = architecture
@@ -58,7 +57,7 @@ class BetaVAE_H(nn.Module):
                 nn.Conv2d(64, 256, 4, 1),            # B, 256,  1,  1
                 nn.ReLU(True),
                 View((-1, 256*1*1)),                 # B, 256
-                nn.Linear(256, z_dim if pcl else z_dim*2),             # B, z_dim*2
+                nn.Linear(256, z_dim*2),             # B, z_dim*2
             )
             self.decoder = nn.Sequential(
                 nn.Linear(z_dim, 256),               # B, 256
@@ -78,7 +77,7 @@ class BetaVAE_H(nn.Module):
             self.weight_init()
         elif self.architecture == "ilcm_tabular":
             assert len(self.image_shape) == 1
-            self.encoder = MLP_ilcm(image_shape[0], z_dim if pcl else 2 * z_dim, 512, 6, spectral_norm=False, batch_norm=False)
+            self.encoder = MLP_ilcm(image_shape[0], 2 * z_dim, 512, 6, spectral_norm=False, batch_norm=False)
             self.decoder = MLP_ilcm(z_dim, image_shape[0], 512, 6, spectral_norm=False, batch_norm=False)
             self.x_logsigma = torch.nn.Parameter(-5 * torch.ones((1,)))
 
@@ -89,21 +88,18 @@ class BetaVAE_H(nn.Module):
 
     def forward(self, x, return_z=False):
         distributions = self._encode(x)
-        if self.pcl:
-            return None, distributions, None
+        mu = distributions[:, :self.z_dim]
+        logvar = distributions[:, self.z_dim:]
+        z = reparametrize(mu, logvar)
+        x_recon = self._decode(z)
+
+        if len(self.image_shape) == 1:
+            x_recon = (x_recon, torch.nn.functional.softplus(self.x_logsigma) + 1e-6)
+
+        if return_z:
+            return x_recon, mu, logvar, z
         else:
-            mu = distributions[:, :self.z_dim]
-            logvar = distributions[:, self.z_dim:]
-            z = reparametrize(mu, logvar)
-            x_recon = self._decode(z)
-
-            if len(self.image_shape) == 1:
-                x_recon = (x_recon, torch.nn.functional.softplus(self.x_logsigma) + 1e-6)
-
-            if return_z:
-                return x_recon, mu, logvar, z
-            else:
-                return x_recon, mu, logvar
+            return x_recon, mu, logvar
 
     def _encode(self, x):
         return self.encoder(x)

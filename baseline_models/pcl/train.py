@@ -60,10 +60,7 @@ def main(args, writer=None):
 
     # saving hp
     ## ---- Save hparams ---- ##
-    if args.pcl:
-        args.mode = "pcl"
-    else:
-        args.mode = 'slowvae'
+    args.mode = "pcl"
     kwargs = vars(args)
     with open(os.path.join(args.output_dir, "hparams.json"), "w") as fp:
         json.dump(kwargs, fp, sort_keys=True, indent=4)
@@ -103,8 +100,7 @@ def loguniform(low, high):
     return np.exp(np.random.uniform(np.log(low), np.log(high), 1))[0]
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='slowVAE')
-    parser.add_argument('--pcl', action='store_true')
+    parser = argparse.ArgumentParser(description='pcl')
     parser.add_argument('--r_func', type=str, default='default', choices=['default', 'mlp'],
                         help='Type of regression function used for PCL')
     parser.add_argument("--output_dir", required=True,
